@@ -40,20 +40,22 @@ export default class Login extends Component {
     switch(this.state.hasLogin) {
       case true: 
       return (
-        <View>
-          <Text>Sign in</Text>
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
           <TextInput
             label='Username'
-            placeholder='user@mail.com'
+            placeholder='Email'
             value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-          />
+            onChangeText={email => this.setState({ email })}/>
+           </View>
+
+          <View style={styles.inputContainer}>
           <TextInput
-            placeholder='password'
+            placeholder='Password'
             value={this.state.password}
             secureTextEntry={true}
-            onChangeText={password => this.setState({ password })}
-          />
+            onChangeText={password => this.setState({ password })}/>
+            </View>
   
           <Text style={styles.errorTextStyle}>
             {this.state.error}
@@ -75,7 +77,7 @@ export default class Login extends Component {
   }
   renderButton() {
     if (this.state.loading) {
-      return <ActivityIndicator size='small' />
+      return <ActivityIndicator size='large' />
     }
     return (
       <Button title="Log in" onPress={this.signIn.bind(this)}>
@@ -94,5 +96,32 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
-  }
+  },
+
+  inputContainer: {
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius:30,
+    borderBottomWidth: 1,
+    width:250,
+    height:45,
+    marginBottom:20,
+    flexDirection: 'row',
+    alignItems:'center'
+},
+inputIcon:{
+  width:30,
+  height:30,
+  marginLeft:15,
+  justifyContent: 'center'
+},
+buttonContainer: {
+  height:45,
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginBottom:20,
+  width:250,
+  borderRadius:30,
+}
 });
