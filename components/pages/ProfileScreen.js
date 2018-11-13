@@ -1,16 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { DrawerNavigator } from 'react-navigation';
+import firebase from 'firebase';
 
 export default class ProfileScreen extends React.Component {
 
   static navigationOptions = {
     title: "Profile"
   };
+
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'stretch' }}>
+      <View style={styles.main}>
         <Text>Profile!</Text>
-        <Button
+        
+        <Button 
           title="Profile Info"
           onPress={() => this.props.navigation.navigate('ProfileInfo')}
         />
@@ -25,16 +29,29 @@ export default class ProfileScreen extends React.Component {
         <Button
           title="Policies"
           onPress={() => this.props.navigation.navigate('Policies')}
-        />
+          />
         <Button
           title="Are you satisfied with the app?"
           onPress={() => this.props.navigation.navigate('AreYouSatisfiedWithTheApp')}
         />
         <Button
           title="Logout"
-          onPress={() => this.props.navigation.navigate('Logout')}
+          onPress={() => {firebase.auth().signOut()}}
         />
-      </View>
+        </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1, 
+    backgroundColor: "white", 
+    alignItems: "flex-start",
+    justifyContent: "center"
+   },
+})
+
+
+
+
