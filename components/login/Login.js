@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, ActivityIndicator, TextInput, View, Button } from 'react-native';
+import { Text, StyleSheet, ActivityIndicator, TextInput, View, Button, TouchableHighlight } from 'react-native';
 import firebase from 'firebase';
 import SignUpForm from './SignUpForm';
 
@@ -42,15 +42,16 @@ export default class Login extends Component {
       return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
-          <TextInput
+          <TextInput style={styles.inputs}
             label='Username'
             placeholder='Email'
+            keyboardType="email-address"
             value={this.state.email}
             onChangeText={email => this.setState({ email })}/>
            </View>
 
           <View style={styles.inputContainer}>
-          <TextInput
+          <TextInput style={styles.inputs}
             placeholder='Password'
             value={this.state.password}
             secureTextEntry={true}
@@ -62,13 +63,15 @@ export default class Login extends Component {
           </Text>
   
           {this.renderButton()}
-          <Button title='Sign up' onPress={() => this.setState({hasLogin : false})}/>
+          <TouchableHighlight style={[styles.buttonContainer, styles.buttonColor]} onPress={() => this.setState({hasLogin : false})}>
+      <Text>Sign up</Text>
+  </TouchableHighlight>
         </View>
       );
       case false: {
         return(
-          <View>
-          <SignUpForm/>
+          <View style={styles.container}> {/* Hvorfor i alle dager setter jeg Style her for signup form?? og hvorfor skal jeg ha brackets({}) for å kommentere??*/}
+          <SignUpForm/> 
           <Button title='Go back' onPress = {() => this.setState({hasLogin:true})}></Button>
           </View>
         )
@@ -80,8 +83,9 @@ export default class Login extends Component {
       return <ActivityIndicator size='large' />
     }
     return (
-      <Button title="Log in" onPress={this.signIn.bind(this)}>
-      </Button>
+      <TouchableHighlight style={[styles.buttonContainer, styles.buttonColor]} onPress={() => this.signIn.bind(this)('Log in')}>
+      <Text>Log in</Text>
+  </TouchableHighlight>
     );
   }
 }
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   errorTextStyle: {
-    fontSize: 20,
+    fontSize: 18,
     alignSelf: 'center',
     color: 'red'
   },
@@ -109,6 +113,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems:'center'
 },
+inputs:{
+  height:45,
+  marginLeft:16,
+  borderBottomColor: '#FFFFFF',
+  flex:1,
+},
+
 inputIcon:{
   width:30,
   height:30,
@@ -123,5 +134,8 @@ buttonContainer: {
   marginBottom:20,
   width:250,
   borderRadius:30,
+},
+buttonColor: {
+  backgroundColor: "#00b5ec",
 }
 });

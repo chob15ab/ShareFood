@@ -1,6 +1,6 @@
 import React from 'react';
 import Swiper from 'react-native-deck-swiper'
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
 
 export default class HomiesScreen extends React.Component {
   static navigationOptions = {
@@ -11,7 +11,7 @@ export default class HomiesScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cards: ['Do', 'What', 'Makes', 'You', 'Happy'],
+      cards: ['Do', 'What', 'Makes', 'You', 'Happy', 'vi', 'har', 'mange','test','kosrt','fordi','det','er','viktig','og','kult','🙂','😎','😛','xD','^.^','O,O',':´)'],
       swipedAllCards: false,
       swipeDirection: '',
       isSwipingBack: false,
@@ -22,7 +22,11 @@ export default class HomiesScreen extends React.Component {
   renderCard = (card, index) => {
     return (
       <View style={styles.card}>
-        <Text style={styles.text}>{card} - {index}</Text>
+        <Text style={styles.text}>{card}</Text>
+        <Image
+          flex 
+          source={{uri: 'https://media0.giphy.com/media/3WmWdBzqveXaE/giphy.gif?cid=3640f6095bec4615464b385877bcf9ab'}}
+        />
       </View>
     )
   };
@@ -134,20 +138,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
