@@ -1,6 +1,10 @@
 import React from 'react';
 import Swiper from 'react-native-deck-swiper'
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { ButtonGroup, Overlay } from 'react-native-elements';
+import firebase from 'firebase';
+
+
 
 export default class HomiesScreen extends React.Component {
   static navigationOptions = {
@@ -8,15 +12,53 @@ export default class HomiesScreen extends React.Component {
   };
 
 
+
   constructor(props) {
     super(props)
     this.state = {
-      cards: ['Do', 'What', 'Makes', 'You', 'Happy', 'vi', 'har', 'mange','test','kosrt','fordi','det','er','viktig','og','kult','🙂','😎','😛','xD','^.^','O,O',':´)'],
+      cards: ['Do', 'What', 'Makes', 'You', 'Happy', 'vi', 'har', 'mange', 'test', 'kosrt', 'fordi', 'det', 'er', 'viktig', 'og', 'kult', '🙂', '😎', '😛', 'xD', '^.^', 'O,O', ':´)'],
       swipedAllCards: false,
       swipeDirection: '',
       isSwipingBack: false,
-      cardIndex: 0
+      cardIndex: 0,
+      overlayIsVisible: false,
+      selectedUserTypeIndex: 0,
+      selectedUserType: 'Homie'
+
     }
+  }
+
+  componentWillMount() {
+
+    this.checkLoggedInUser();
+
+
+
+
+
+  }
+
+  checkLoggedInUser() {
+    var that = this;
+    var user = firebase.auth().currentUser;
+    console.log(user.uid);
+
+    firebase.database().ref('users').once('value', function (snapshot) {
+      var users = snapshot.val();
+
+      if (users[user.uid]) {
+
+
+      } else {
+
+        //FIrst time logged in
+        that.setState({ overlayIsVisible: true })
+    
+      }
+
+
+    });
+
   }
 
   renderCard = (card, index) => {
@@ -24,8 +66,8 @@ export default class HomiesScreen extends React.Component {
       <View style={styles.card}>
         <Text style={styles.text}>{card}</Text>
         <Image
-          flex 
-          source={{uri: 'https://media0.giphy.com/media/3WmWdBzqveXaE/giphy.gif?cid=3640f6095bec4615464b385877bcf9ab'}}
+          flex
+          source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/sharefood-d55fd.appspot.com/o/images%2Ftest-image?alt=media&token=2ac2399f-5051-47b1-9513-c90e9b560b73' }}
         />
       </View>
     )
@@ -60,9 +102,47 @@ export default class HomiesScreen extends React.Component {
     this.swiper.swipeLeft()
   };
 
+  updateSelectedUserType(selectedIndex) {
+  
+    var userTypes = ['Homie', 'Restaurant'];
+    this.setState({
+      selectedUserTypeIndex: selectedIndex,
+      selectedUserType: userTypes[selectedIndex]
+    })
+
+
+
+  }
+
+  createUser() {
+    var that = this;
+    var user = firebase.auth().currentUser;
+    const userType = this.state.selectedUserType;
+
+    firebase.database().ref('/users/'+user.uid).set({
+      'userId' : user.uid,
+      'email': user.email,
+      'userType': userType
+  }).then((data)=>{
+      alert("User created successfully");
+      that.setState({
+        overlayIsVisible: false
+      })
+  }).catch((error)=>{
+      //error callback
+      console.log('error ' , error)
+  })
+
+  }
+
   render() {
+    
+    
     return (
+
       <View style={styles.container}>
+
+
         <Swiper
           ref={swiper => {
             this.swiper = swiper
@@ -111,10 +191,36 @@ export default class HomiesScreen extends React.Component {
           animateCardOpacity
         >
         </Swiper>
+        {this.renderOverlay()}
+
       </View>
     )
   }
+
+
+
+
+renderOverlay() {
+  return (
+    <Overlay
+    isVisible={this.state.overlayIsVisible}
+  >
+      <ButtonGroup
+        selectedBackgroundColor="pink"
+        onPress={this.updateSelectedUserType.bind(this)}
+        selectedIndex={this.state.selectedUserTypeIndex}
+        buttons={['Homie', 'Restaurant']}
+        containerStyle={{height: 30}} />
+
+
+        <Button title="Ok" onPress={this.createUser.bind(this)}/>
+  </Overlay>
+)
+
 }
+
+}
+
 
 const styles = StyleSheet.create({
 

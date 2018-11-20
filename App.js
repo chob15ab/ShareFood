@@ -16,13 +16,13 @@ import NavigationScreen from "./components/NavigationScreen";
   componentWillMount() {
     firebase.initializeApp({
       
-        apiKey: "AIzaSyB584w4uiG4mVqMm2tWTKBW8tQZnN9f17c",
-        authDomain: "sharefood-d55fd.firebaseapp.com",
-        databaseURL: "https://sharefood-d55fd.firebaseio.com",
-        projectId: "sharefood-d55fd",
-        storageBucket: "sharefood-d55fd.appspot.com",
-        messagingSenderId: "642111795548"
-      });
+      apiKey: "AIzaSyB584w4uiG4mVqMm2tWTKBW8tQZnN9f17c",
+      authDomain: "sharefood-d55fd.firebaseapp.com",
+      databaseURL: "https://sharefood-d55fd.firebaseio.com",
+      projectId: "sharefood-d55fd",
+      storageBucket: "sharefood-d55fd.appspot.com",
+      messagingSenderId: "642111795548"
+            });
       
       firebase.auth().onAuthStateChanged(user => {
         if(user) {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, TextInput, StyleSheet, View, ActivityIndicator, Button, TouchableHighlight } from 'react-native';
+import { ButtonGroup, } from "react-native-elements";
 import firebase from 'firebase';
+
 
 export default class LoginForm extends Component {
 
@@ -9,11 +11,11 @@ export default class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      loading: false
-    }
+      loading: false,
+      }
   }
 
-  onButtonPress() {
+  async onButtonPress() {
     const { email, password } = this.state;
 
     this.setState({
@@ -27,6 +29,9 @@ export default class LoginForm extends Component {
   }
 
   onSignUpSuccess() {
+
+
+
     this.setState({
       email: '',
       password: '',
@@ -43,10 +48,17 @@ export default class LoginForm extends Component {
     });
   }
 
+
+  updateSelectedUserType = (userType) => {
+    this.setState({userType})
+  }
+
   render() {
     return (
       <View style={styles.container}>
+
         <View style={styles.inputContainer}>
+        
           <TextInput style={styles.inputs}
             label='Username'
             placeholder='e-Mail'
@@ -68,7 +80,9 @@ export default class LoginForm extends Component {
         </Text>
 
         {this.renderButton()}
-      </View>
+      
+        </View>
+
     );
   }
 
