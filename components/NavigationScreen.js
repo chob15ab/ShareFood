@@ -17,6 +17,8 @@ import PoliciesScreen from './pages/profile/policies/PoliciesScreen';
 import LogoutScreen from "./pages/profile/LogoutScreen";
 import DeliveryScreen from "./pages/profile/delivery/DeliveryScreen";
 import AreYouSatisfiedWithTheAppScreen from "./pages/profile/AreYouSatisfiedWithTheAppScreen";
+import UploadDishScreen from "./pages/profile/uploadDish/UploadDishScreen";
+
 
 
 const HomiesStack = createStackNavigator({
@@ -41,6 +43,7 @@ const ConnectionsStack = createStackNavigator({
 
 const ProfileStack = createStackNavigator({
   Profile: { screen: ProfileScreen },
+  UploadDish: { screen: UploadDishScreen },
   ProfileInfo: { screen: ProfileInfoScreen},
   Payment: { screen: PaymentScreen},
   Delivery: { screen: DeliveryScreen},

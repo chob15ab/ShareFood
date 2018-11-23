@@ -52,6 +52,23 @@ export default class ProfileScreen extends React.Component {
      
         <Button title="Choose image..." onPress={this.onChooseImagePress} />
 
+        
+        <Button
+          title="Upload dish"
+          
+          onPress={() => this.props.navigation.navigate('UploadDish')}
+          titleStyle={{ color: "black", textAlign: "left" }}
+
+          buttonStyle={{
+            backgroundColor: "lightgrey",
+            width: 400, 
+            height: 45,
+            borderColor: "lightgrey",
+            borderWidth: 1,
+            
+          }}
+          />
+        
         <Button 
 
           title="Profile Info"
@@ -70,11 +87,11 @@ export default class ProfileScreen extends React.Component {
           }}
         />
       
-      
         <Button
           title="Payment"
 
           onPress={() => this.props.navigation.navigate('Payment')}
+          titleStyle={{ color: "black" }}
 
           buttonStyle={{
             backgroundColor: "white",
@@ -90,6 +107,7 @@ export default class ProfileScreen extends React.Component {
           color="black"
 
           onPress={() => this.props.navigation.navigate('Delivery')}
+          titleStyle={{ color: "black" }}
 
           buttonStyle={{
             backgroundColor: "white",
@@ -105,6 +123,7 @@ export default class ProfileScreen extends React.Component {
           color="black"
 
           onPress={() => this.props.navigation.navigate('Policies')}
+          titleStyle={{ color: "black" }}
 
           buttonStyle={{
             backgroundColor: "white",
@@ -120,6 +139,7 @@ export default class ProfileScreen extends React.Component {
           color="black"
 
           onPress={() => this.props.navigation.navigate('AreYouSatisfiedWithTheApp')}
+          titleStyle={{ color: "black" }}
 
           buttonStyle={{
             backgroundColor: "white",
@@ -135,6 +155,7 @@ export default class ProfileScreen extends React.Component {
           color="black"
 
           onPress={() => {firebase.auth().signOut()}}
+          titleStyle={{ color: "black" }}
 
           buttonStyle={{
             backgroundColor: "white",
