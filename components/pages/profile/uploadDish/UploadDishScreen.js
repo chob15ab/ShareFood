@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, Button, TextInput, DatePickerIOS, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, Button, TextInput, DatePickerIOS, View, TouchableHighlight, Alert } from 'react-native';
 import firebase from "firebase";
+import { Permissions, ImagePicker } from "expo";
 
 export default class UploadDishScreen extends React.Component {
     constructor(props) {
@@ -24,7 +25,38 @@ export default class UploadDishScreen extends React.Component {
         this.setState({ chosenDate: newDate })
     }
 
-  
+      onChooseImagePress = async () => {
+        let result = await ImagePicker.launchCameraAsync();
+        
+        
+    
+        if (!result.cancelled) {
+          this.uploadImage(result.uri, "test-image")
+            .then(() => {
+              Alert.alert("Success");
+            })
+            .catch((error) => {
+              Alert.alert(error);
+            });
+        }
+      }
+    
+    
+      uploadImage = async (uri, imageName) => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+    
+        var ref = firebase.storage().ref().child("images/" + imageName);
+        return ref.put(blob);
+      }
+    
+    
+      async componentWillMount() {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+      }
+
+
+
 
     insertIntoFB = () => {
         //if (this.state.title != "" && this.state.description != "") {
@@ -42,6 +74,7 @@ export default class UploadDishScreen extends React.Component {
         return (
             <View style={styles.container}>
 
+                <Button title="Choose image..." onPress={this.onChooseImagePress} />
 
                 <TextInput
                     label='Title'
@@ -64,7 +97,7 @@ export default class UploadDishScreen extends React.Component {
 
 
                 <TouchableHighlight onPress={this.insertIntoFB}>
-                    <Text>Sign up</Text>
+                    <Text>Upload</Text>
                 </TouchableHighlight>
             </View>
 
