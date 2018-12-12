@@ -25,15 +25,17 @@ export default class UploadDishScreen extends React.Component {
         this.setState({ chosenDate: newDate })
     }
 
-      onChooseImagePress = async () => {
+    onChooseImagePress = async () => {
         let result = await ImagePicker.launchCameraAsync();
         
-        
+        var that = this;
     
         if (!result.cancelled) {
           this.uploadImage(result.uri, "test-image")
-            .then(() => {
+            .then(res => {
               Alert.alert("Success");
+              console.log(res)
+              that.setState({img: res}) 
             })
             .catch((error) => {
               Alert.alert(error);
@@ -47,9 +49,11 @@ export default class UploadDishScreen extends React.Component {
         const blob = await response.blob();
     
         var ref = firebase.storage().ref().child("images/" + imageName);
-        return ref.put(blob);
+        var url = ref.put(blob).then(snapshot => {
+            return snapshot.ref.getDownloadURL();
+        });
+        return url;
       }
-    
     
       async componentWillMount() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
@@ -59,14 +63,14 @@ export default class UploadDishScreen extends React.Component {
 
 
     insertIntoFB = () => {
-        //if (this.state.title != "" && this.state.description != "") {
-            var that = this;
-            firebase.database().ref('dish').push({
-                title: that.state.title,
-                description: that.state.description,
-                date: that.state.chosenDate
-            });
-        //}
+        var that = this;
+        var img = this.state.img;
+        firebase.database().ref('dish').push({
+            title: that.state.title,
+            description: that.state.description,
+            date: that.state.chosenDate,
+            img: img
+        });
 
     }
 
