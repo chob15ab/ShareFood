@@ -31,7 +31,8 @@ export default class UploadDishScreen extends React.Component {
         var that = this;
     
         if (!result.cancelled) {
-          this.uploadImage(result.uri, "test-image")
+          let r = Math.random().toString(36).substring(7);
+          this.uploadImage(result.uri, r)
             .then(res => {
               Alert.alert("Success");
               console.log(res)
@@ -83,14 +84,14 @@ export default class UploadDishScreen extends React.Component {
                 <TextInput
                     label='Title'
                     placeholder='Title'
-                    keyboardType="Title"
+                    keyboardType= 'default'
                     value={this.state.title}
                     onChangeText={title => this.setState({ title })} />
 
                 <TextInput
                     label='Description'
                     placeholder='Description'
-                    keyboardType="Description"
+                    keyboardType='default'
                     value={this.state.description}
                     onChangeText={description => this.setState({ description })} />
 

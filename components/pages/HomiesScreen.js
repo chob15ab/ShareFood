@@ -16,7 +16,7 @@ export default class HomiesScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cards: ['Do', 'What', 'Makes', 'You', 'Happy', 'vi', 'har', 'mange', 'test', 'kosrt', 'fordi', 'det', 'er', 'viktig', 'og', 'kult', '🙂', '😎', '😛', 'xD', '^.^', 'O,O', ':´)'],
+      cards: [],
       swipedAllCards: false,
       swipeDirection: '',
       isSwipingBack: false,
@@ -29,19 +29,57 @@ export default class HomiesScreen extends React.Component {
   }
 
   componentWillMount() {
-
     this.checkLoggedInUser();
+  }
 
+  componentDidMount() {
+    this.getDishes();
+    /*
+    var obj = [{
+      title:"123",
+      description:"description",
+      img: 'https://firebasestorage.googleapis.com/v0/b/sharefood-d55fd.appspot.com/o/images%2Ftest-image?alt=media&token=4957a086-0930-4879-bc59-2fca7e57907b'
+    },
+    {
+      title:"123",
+      description:"description",
+      img: 'https://firebasestorage.googleapis.com/v0/b/sharefood-d55fd.appspot.com/o/images%2Ftest-image?alt=media&token=4957a086-0930-4879-bc59-2fca7e57907b'
+    }];
 
+    console.log(obj)
 
-
-
+    this.setState({
+      cards: obj
+    })*/
+  }
+  
+  getDishes() {
+    var firebaseRef = firebase.database().ref('dish');
+    var that = this;
+    firebaseRef.once('value')
+      .then((dataSnapshot) => {
+          var array = []
+          dataSnapshot.forEach(val => {
+            var title = val.val().title;
+            var img = val.val().img;
+            var desc = val.val().description;
+            var obj = {
+              title: title,
+              img: img,
+              description: desc
+            };
+            array.push(obj)
+          })
+          
+          that.setState({
+            cards: array
+          });
+      });
   }
 
   checkLoggedInUser() {
     var that = this;
     var user = firebase.auth().currentUser;
-    console.log(user.uid);
 
     firebase.database().ref('users').once('value', function (snapshot) {
       var users = snapshot.val();
@@ -61,14 +99,15 @@ export default class HomiesScreen extends React.Component {
 
   }
 
-  renderCard = (card, index) => {
+  renderCard = (card, index) => { 
     return (
       <View style={styles.card}>
-        <Text style={styles.text}>{card}</Text>
+        <Text style={styles.text}>{card.title}</Text>
         <Image
           flex
-          source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/sharefood-d55fd.appspot.com/o/images%2Ftest-image?alt=media&token=2ac2399f-5051-47b1-9513-c90e9b560b73' }}
+          source={{ uri: card.img }}
         />
+        <Text>{card.description}</Text>
       </View>
     )
   };
@@ -153,9 +192,9 @@ export default class HomiesScreen extends React.Component {
           cardIndex={this.state.cardIndex}
           cardVerticalMargin={0}
           cardHorizontalMargin={0}
-          renderCard={this.renderCard}
           onSwipedAll={this.onSwipedAllCards}
           stackSize={2}
+          renderCard={this.renderCard}
 
           overlayLabels={{
 
