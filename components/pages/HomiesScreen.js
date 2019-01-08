@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 50,
+    fontSize: 35,
     backgroundColor: 'transparent'
   },
   done: {

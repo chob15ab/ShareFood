@@ -72,6 +72,7 @@ export default class UploadDishScreen extends React.Component {
             date: that.state.chosenDate,
             img: img
         });
+        alert("Dish uploaded");
 
     }
 
